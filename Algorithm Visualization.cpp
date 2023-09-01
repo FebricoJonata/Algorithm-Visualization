@@ -2,9 +2,15 @@
 #include <windows.h>
 #include <time.h>
 #include <vector>
+#include <conio.h>
 
 #define HEIGHT 25
 #define WIDTH 109
+
+#define UP_ARROW 72
+#define DOWN_ARROW 80
+#define LEFT_ARROW 75
+#define RIGHT_ARROW 77
 
 char Map[20][100];
 int arr[100] = {0};
@@ -470,6 +476,8 @@ void menuSort(){
 	}while(option != 4);
 }
 
+
+
 void menuMaze(){
 	int option;
 	do{
@@ -493,23 +501,65 @@ void menuMaze(){
 	}while(option!=3);
 }
 
+void arrow_key_menu() {
+   int option = 1;
+   int key;
+   
+   do{
+   	
+   	  system("cls");
+   	  puts("");
+   	  puts("");
+      printf("%-50sAlgorithm Visualization\n", "\x1b[m");
+      printf("\n\n");
+      printf("%-53sSorting Vizualization\n", (option == 1)? "\033[31m" : "\x1b[m");
+      printf("%-54sMaze Generation\n", (option == 2)? "\033[31m" : "\x1b[m");
+      printf("%-59sExit\n", (option == 3)? "\033[31m" : "\x1b[m");
+      puts("");
+      puts("");
+      puts("");
+      puts("");
+      printf("%s\tArrow Key [down | up] to move\t\t\t\t\t\t\t\tEnter to choose\n", "\x1b[m");
+      key = getch();
+      
+
+      if (key == 224) {
+         key = getch();
+
+         switch (key) {
+            case UP_ARROW:
+               if (option > 1) {
+                  option--; 
+               }
+               break;
+            case DOWN_ARROW:
+               if (option < 3) {
+                  option++;
+               }
+               break;
+         }
+      }
+      
+      if(option == 1 && key == 13){
+      	system("cls");
+      	menuSort();	
+      	getch();
+	  }else if(option == 2 && key == 13){
+	  	system("cls");
+	  	menuMaze();
+	  	puts("");
+	  	printf("\t\t\t\t\t\%sPress Enter To Continue....","\x1b[m"); getch();	
+	  }else if (key == 13 && option == 3) {
+	  	break;
+      }
+      
+   }while(1);
+   system("cls");
+   printf("%s\nPress Enter To Continue....","\x1b[m"); getch();
+}
+
 int main(){
 	srand(time(NULL));
 	int option;
-	do{
-		system("cls");
-		printf("1. Sorting\n");
-		printf("2. Maze Solving\n");
-		printf("3. Exit\n");
-		printf(">> ");
-		scanf("%d", &option);
-		system("cls");
-		if(option == 1){
-			menuSort();
-		}else if(option == 2){
-			menuMaze();
-		}else if(option == 3){
-			break;
-		}
-	}while(option!=3);
+	arrow_key_menu();
 }
